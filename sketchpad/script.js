@@ -3,12 +3,10 @@
 // http://www.theodinproject.com/courses/web-development-101/lessons/javascript-and-jquery
 
 
-
+/* Gets acceptable grid dimensions from user */
 $(document).ready(function(){
-
 	var gridBuilder = function() {
 
-	/* Gets acceptable grid dimensions from user */
 	var gridWidth = 17;
 	var gridHeight = 17;
 
@@ -17,7 +15,7 @@ $(document).ready(function(){
 		gridHeight = prompt ('Enter sketchpad height(1-16): ');
 	};
 	
-	/* Builds grid, adds borders, margins */
+/* Builds grid, adds borders, margins */
 	for(var i=0; i<gridWidth; i++) {
 		for (var j=0; j<gridHeight; j++){
 			$('#containerGrid').append("<div class='block'></div>");			
@@ -45,7 +43,8 @@ $(document).ready(function(){
 		$(this).css('background-color', randomColor());
 	
 	});
-
+	
+	/*Refreshs page when button clicked */
 	$('button').click(function(){
 		location.reload();
 	});
