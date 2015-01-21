@@ -1,13 +1,12 @@
 def bubble_sort(jumbled)
-	sorted = true
+	sorted = false
 	
-	while sorted do
-		sorted = false
-		
+	while !sorted do
+		sorted = true
 		for i in 0..jumbled.length-2
 			if jumbled[i] > jumbled[i+1]
 				jumbled[i], jumbled[i+1] = jumbled[i+1], jumbled[i]
-				sorted = true
+				sorted = false
 			end
 		end
 	end
