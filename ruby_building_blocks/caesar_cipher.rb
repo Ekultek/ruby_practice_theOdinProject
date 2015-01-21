@@ -20,7 +20,7 @@ def caesar_cipher(string, shift)
 
 caesar_cipher("What a string!", 5)
 
-#First attempt: One word ciphers, might have problems if same letter shows up?
+#First attempt: One word ciphers, has problems if same letter shows up
 =begin
 def caesar_cipher(string, shift)
 	
