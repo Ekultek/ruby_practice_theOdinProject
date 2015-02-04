@@ -17,6 +17,8 @@ class Game
       feedback(opponent, @active_player_guess) 
       if player_wins
         puts "#{active_player.name} WINS!"
+        puts "#{opponent.name}'s secret code: #{opponent.secret_code}"
+        puts "#{active_player.name}'s secret code: #{active_player.secret_code}"
         return
       elsif tries_exceeded
         puts "#{active_player.name}, number of tries exceeded. GAME OVER"
