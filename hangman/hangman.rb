@@ -5,23 +5,37 @@ require "yaml"
 
 class Game
   def initialize
-    welcome_script
     @word = select_word.split('')
     @word_blanks = Array.new(@word.length)
     @chances = 10
-    @player = Player.new
     @wrong_letters = []
-    
   end
   
-   def welcome_script
+   def self.welcome_script
     puts ' '
     print '============================='.center(10)
     print 'Welcome to HANGMAN!'.center(10)
     print '============================='.center(10)
     puts ''
-    input = ''
-    
+    loop do
+      puts ''
+      print "Press (L) to load saved game or (N) to start new game or (E) to exit!: ".center(10)
+      @input = gets.chomp.upcase
+      if @input == 'L'
+        if File.exist? ('saved_game.rb')
+          LoadGame.new
+        else
+          puts "There are no games saved!"
+      end
+      elsif @input == 'N'
+        NewGame.new
+      elsif @input == 'E'
+        print 'BYE!'
+        return
+      else
+        puts "I don't understand!"
+      end
+    end 
    end
    
   def select_word
@@ -66,6 +80,9 @@ class Game
   def check(letter)
     if @word_blanks.include? letter or @wrong_letters.include? letter
       puts "LETTER ALREADY GUESSED."
+    elsif letter == 'save'
+      save_game
+      puts 'PROGRESS SAVED!'
     else
       match = @word.each_index.select {|i| @word[i] == letter}
       match == []? hang(letter) : correct(letter, match)
@@ -161,6 +178,13 @@ class Game
   def player_hanged
     return true if @player.bad_guesses == @chances
   end
+  
+  def save_game
+    yaml = YAML::dump(self)
+    saved = File.new('saved_game.rb', 'w')
+    saved.write(yaml)
+    saved.close
+  end
 end
 
 class Player
@@ -185,5 +209,20 @@ class Player
 
 end
 
-z = Game.new
-z.play
+class NewGame < Game
+  def initialize
+    super
+    puts "At any time, you can type 'save'!"
+    @player = Player.new
+    play
+  end
+end
+
+class LoadGame < Game
+  def initialize
+    puts"At any time, you can type 'save'!"
+    YAML.load_file('saved_game.rb').play
+  end
+end
+
+Game.welcome_script
