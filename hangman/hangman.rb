@@ -1,8 +1,9 @@
 # Hangman 
 # Dawn Pattison
 
-require "yaml"
+require 'yaml'
 
+# Contains all major game functions
 class Game
   def initialize
     @word = select_word.split('')
@@ -11,21 +12,21 @@ class Game
     @wrong_letters = []
   end
   
-   def self.welcome_script
-    puts ' '
+  def self.welcome_script
+    puts ''
     print '============================='.center(10)
     print 'Welcome to HANGMAN!'.center(10)
     print '============================='.center(10)
     puts ''
     loop do
       puts ''
-      print "Press (L) to load saved game or (N) to start new game or (E) to exit!: ".center(10)
+      print 'Press (L) to load saved game or (N) to start new game or (E) to exit!: '.center(10)
       @input = gets.chomp.upcase
       if @input == 'L'
         if File.exist? ('saved_game.rb')
           LoadGame.new
         else
-          puts "There are no games saved!"
+          puts 'There are no games saved!'
       end
       elsif @input == 'N'
         NewGame.new
@@ -39,10 +40,10 @@ class Game
    end
    
   def select_word
-    dictionary = File.read("5desk.txt").split("\n")
+    dictionary = File.read('5desk.txt').split("\n")
     word = ''
     word = dictionary.sample.downcase until word.length > 5 && word.length < 12
-    return word
+    word
   end
   
   def play
@@ -68,24 +69,24 @@ class Game
   def print_word_blanks
     puts ''
     @word_blanks.each  do |blank|
-      if blank == nil  
+      if blank.nil?  
         print '_ '
       else
         print blank + ' '      
       end
-     end
-     puts ' '
+    end
+    puts ' '
   end
   
   def check(letter)
     if @word_blanks.include? letter or @wrong_letters.include? letter
-      puts "LETTER ALREADY GUESSED."
+      puts 'LETTER ALREADY GUESSED.'
     elsif letter == 'save'
       save_game
       puts 'PROGRESS SAVED!'
     else
-      match = @word.each_index.select {|i| @word[i] == letter}
-      match == []? hang(letter) : correct(letter, match)
+      match = @word.each_index.select { |i| @word[i] == letter }
+      match == [] ? hang(letter) : correct(letter, match)
     end
   end
   
@@ -100,43 +101,43 @@ class Game
   end
   
   def correct(letter, match)
-    match.each {|i| @word_blanks[i] = letter}
+    match.each { |i| @word_blanks[i] = letter }
   end
   
   def draw(mark)
-      puts ''
+    puts ''
     case mark
     when 0
-      6.times {puts}
+      6.times { puts }
     when 1
       puts "  '  ".center(10)
       puts '  O  '.center(10)
-      4.times {puts}
+      4.times { puts }
     when 2
       puts "  '  ".center(10)
       puts '\ O  '.center(10)
-      4.times {puts}
+      4.times { puts }
     when 3
       puts "  '  ".center(10)
       puts '\ O  '.center(10)
       puts ' \   '.center(10)
-      3.times {puts}
+      3.times { puts }
     when 4
       puts "  '  ".center(10)
       puts '\ O /'.center(10)
       puts ' \   '.center(10)
-      3.times {puts}
+      3.times { puts }
     when 5
       puts "  '  ".center(10)
       puts '\ O /'.center(10)
       puts ' \ / '.center(10)
-      3.times {puts}
+      3.times { puts }
     when 6
       puts "  '  ".center(10)
       puts '\ O /'.center(10)
       puts ' \ / '.center(10)
       puts '  |  '.center(10)
-      2.times {puts}
+      2.times { puts }
     when 7
       puts "  '  ".center(10)
       puts '\ O /'.center(10)
@@ -158,7 +159,6 @@ class Game
       puts '  |  '.center(10)
       puts ' / \ '.center(10)
       puts '/    '.center(10)
-      
     else
       puts "  '  ".center(10)
       puts '\ O /'.center(10)
@@ -172,7 +172,6 @@ class Game
   
   def player_wins
     return true if @word == @word_blanks
-    
   end
   
   def player_hanged
@@ -187,6 +186,7 @@ class Game
   end
 end
 
+# Player class, contains current letter guessed
 class Player
   attr_accessor :name, :bad_guesses
   def initialize
@@ -195,7 +195,7 @@ class Player
   end
   
   def request_name
-    print "Enter your name, good sir: "
+    print 'Enter your name, kind sir or madam: '
     name = gets.chomp
   end
   
@@ -204,16 +204,14 @@ class Player
     sleep(0.5)
     print "#{@name.capitalize}, guess a letter: "
     letter = gets.chomp.downcase
-    return letter
   end
-
 end
-
+# NewGame class, inherits from Game
 class NewGame < Game
   def initialize
     super
     puts ''
-    puts "At any time, you can type 'save'!"
+    puts 'At any time, you can type \'save\'!'
     puts ''
     @player = Player.new
     play
@@ -223,7 +221,7 @@ end
 class LoadGame < Game
   def initialize
     puts ''
-    puts"At any time, you can type 'save'!"
+    puts 'At any time, you can type \'save\'!'
     puts ''
     YAML.load_file('saved_game.rb').play
   end
