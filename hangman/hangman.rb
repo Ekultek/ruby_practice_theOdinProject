@@ -212,7 +212,9 @@ end
 class NewGame < Game
   def initialize
     super
+    puts ''
     puts "At any time, you can type 'save'!"
+    puts ''
     @player = Player.new
     play
   end
@@ -220,7 +222,9 @@ end
 
 class LoadGame < Game
   def initialize
+    puts ''
     puts"At any time, you can type 'save'!"
+    puts ''
     YAML.load_file('saved_game.rb').play
   end
 end

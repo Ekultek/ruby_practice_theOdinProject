@@ -1,3 +1,5 @@
+# Simple server
+
 require 'socket'
 require 'json'
 

@@ -1,34 +1,30 @@
 --- !ruby/object:NewGame
 word:
-- s
-- i
-- n
-- g
-- a
-- p
-- o
-- r
+- j
 - e
 - a
 - n
-word_blanks:
-- s
+- n
 - i
 - n
+- e
+word_blanks:
+- j
 - 
 - a
 - 
 - 
-- r
 - 
-- a
-- n
+- 
+- 
 chances: 10
 wrong_letters:
-- d
+- s
 - f
-- t
 - m
+- t
+- l
+- r
 player: !ruby/object:Player
   name: Dawn
-  bad_guesses: 4
+  bad_guesses: 6
