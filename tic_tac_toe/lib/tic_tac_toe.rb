@@ -11,7 +11,7 @@ class Player
 end
 # Board class, includes all game functions
 class Board
-  attr_accessor :board, :player_1, :player_2, :player_list, :valid
+  attr_accessor :board, :player_1, :player_2, :player_list, :valid, :stop
   def initialize
     @board = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     @player_1 = Player.new('Player 1', 'X')
@@ -103,5 +103,5 @@ class Board
   
 end
 
-z = Board.new
-z.turn
+# z = Board.new
+# z.turn
