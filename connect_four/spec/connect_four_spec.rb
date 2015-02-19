@@ -125,7 +125,7 @@ describe Game do
   end
   
   describe "#inspect_ldiagonal" do
-    it "finds player markers on left diagonal" do
+   it "finds player markers on left diagonal" do
       expect(@game.inspect_ldiagonal(@game.player1)).to eql [[0,1], [0,1], [0, 2], [2,3]]
     end
   end 
@@ -142,4 +142,10 @@ describe Game do
       expect(@game.board_full).to be false
     end
   end
+  
+  # describe "#acceptable_choice" do
+    # it "returns row/col if space not taken" do 
+       # expect(@game.acceptable_choice(@game.player1)).to eql [1,0]
+    # end
+ # end
   end

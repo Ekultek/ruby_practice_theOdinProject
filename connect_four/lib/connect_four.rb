@@ -218,5 +218,3 @@ class Game
    
 end
 
-z = Game.new
-z.turn
