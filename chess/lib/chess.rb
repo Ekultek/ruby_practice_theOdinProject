@@ -158,6 +158,8 @@ class Game
       end
       if coordinate == 'exit' or coordinate == 'Exit' or coordinate == 'E'
         counter += 1
+        save_game
+        puts "Exits and saves!"
         throw :finish
       end
       x = coordinate[0]; y = coordinate[1].to_i
@@ -244,6 +246,36 @@ class Game
     $board[stop[0]][stop[1]] = piece
     $board[start[0]][start[1]] = nil  
     $board[stop[0]][stop[1]].turn += 1
+    if piece.class == Pawn and (stop[1] == 7 or stop[1] == 0)
+      promotion(stop, piece)
+    end      
+  end
+  def promotion(stop, piece)
+    color = piece.color
+    counter = 0
+    while counter < 1
+      puts "To which piece would you like to promote your pawn?"
+      sleep (0.1)
+      print "(Q)ueen, k(N)ight, (R)ook, or (B)ishop"
+      swap = gets.chomp.upcase
+      case swap
+        when "Q"
+          $board[stop[0]][stop[1]] = Queen.new(color)
+          counter += 1
+        when "N"
+          $board[stop[0]][stop[1]] = Knight.new(color)
+           counter += 1
+        when "R"
+          $board[stop[0]][stop[1]] = Rook.new(color)
+           counter += 1
+        when "B"
+          $board[stop[0]][stop[1]] = Bishop.new(color)
+           counter += 1
+        else  
+          puts "I don't understand!"    
+      end 
+    end
+    puts "Pawn promoted."
   end
     # Determines which player is a threat to the King (has him in check)
   def offending_player(king_loc, player, board)

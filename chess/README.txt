@@ -15,3 +15,5 @@ Functionality pending:
 -stalemate
 -En passant 
 -castling
+
+Learned: don't use global variables. what a headache.
