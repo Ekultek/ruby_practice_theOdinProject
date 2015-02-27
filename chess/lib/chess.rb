@@ -1,10 +1,17 @@
-
+require 'yaml'
 # board class, keeps track of game pieces
 class Game
   attr_accessor :board, :players
   def initialize
     $board = board_generator
     @players = ["white", "black"]
+    @current_player_index = 0
+  end
+  def next_player_index 
+    1 - @current_player_index 
+  end
+  def switch_player
+    @current_player_index = next_player_index
   end
   #game needs to make sure input, and output are on board
   def board_generator
@@ -20,15 +27,40 @@ class Game
     place_queens
     place_kings
   end
+ 
+  def self.welcome
+    puts ''
+    print 'Welcome to CHESS!'.center(27)
+    puts ''
+    loop do
+      puts ''
+      print "Do you want to start a (N)ew game, open a (S)aved game, or (E)xit?"
+      response = gets.chomp.upcase
+      if response == 'S'
+        if File.exist? ('saved_game.rb')
+          LoadGame.new
+        else
+          puts 'There are no games saved!'
+          sleep (0.3)
+          puts 'Starting new game...'
+          sleep(0.3)
+          NewGame.new
+        end
+      elsif response == 'N'
+        NewGame.new
+      elsif response == 'E'
+        print 'Thank you for playing!'
+        return
+      else
+        puts "I don't understand!"
+      end
+    end 
+   end
   # Main game loop
-    def play
-    puts ''
-    puts "Welcome to CHESS!".center(27)
-    puts ''
-    setup_board
+  def play
     catch :finish do
       loop do
-      @players.each do |player| 
+        player = @players[@current_player_index]
         game_over = checkmate(player)
         if game_over
           sleep(1)
@@ -48,9 +80,9 @@ class Game
             move_player(start, stop, piece)
             counter +=1
           end
-        end      
+        end  
+        switch_player
       end
-      end  
     end
   end
   # Prints board nicely
@@ -120,6 +152,14 @@ class Game
     until counter == 1
       print "Enter starting coordinates: " 
       coordinate = STDIN.gets.chomp
+      if coordinate == 'save' or coordinate == 'Save' or coordinate == 'S'
+        save_game
+        puts 'PROGRESS SAVED!'
+      end
+      if coordinate == 'exit' or coordinate == 'Exit' or coordinate == 'E'
+        counter += 1
+        throw :finish
+      end
       x = coordinate[0]; y = coordinate[1].to_i
       counter+=1 if ((cols.include? x) && (rows.include? y))
     end
@@ -166,7 +206,6 @@ class Game
     temp_board[start[0]][ start[1]] = nil
     return temp_board
   end
-  
   # Runs tests to ensure 1)  moving your own player 2) King not in check or not moving into check 3) not trying to capture your own piece 4) move is a legal combination
   def permissible(start, stop, piece, player)
     $board[start[0]][start[1]].nil? ? start_color = nil : start_color =  $board[start[0]][start[1]].color
@@ -294,8 +333,13 @@ class Game
   def within_range(coordinates)
     return true if coordinates[0].between?(0, 7) && coordinates[1].between?(0, 7)
     return false
+  end 
+  def save_game
+    yaml = YAML::dump(self)
+    saved = File.new('saved_game.rb', 'w')
+    saved.write(yaml)
+    saved.close
   end
-  
 end
  
 class Pawn
@@ -533,4 +577,26 @@ class King
    end
 end
 
+# NewGame class, inherits from Game
+class NewGame < Game
+  def initialize
+    super
+    puts ''
+    puts "New game!"
+    puts '...At any time, you can type \'save\' or \'exit\'!'
+    puts ''
+    setup_board
+    play
+  end
+end
 
+class LoadGame < Game
+  def initialize
+    puts ''
+    puts '...At any time, you can type \'save\' or \'exit\'!'
+    puts ''
+    YAML.load_file('saved_game.rb').play
+  end
+end
+
+Game.welcome

@@ -4,4 +4,4 @@ Needed functions:
 
 Castling
 En passant 
-stalemate option
+stalemate 
