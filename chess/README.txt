@@ -1,7 +1,17 @@
-Future additions:
+Functionality complete:
+  -New game
+  -Alternates players
+  -Prints board
+  -Determines if player in check
+  -Prohibits moving into check
+  -Ensures move is valid move
+  -Removes captured pieces from board
+  -Checkmate ends game
+  -Saves game
+  -Loads saved game
+  -Exits game
 
-Needed functions:
-
-Castling
-En passant 
-stalemate 
+Functionality pending:
+-stalemate
+-En passant 
+-castling
