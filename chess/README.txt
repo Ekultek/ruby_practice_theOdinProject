@@ -1,3 +1,5 @@
+Chess
+
 Functionality complete:
   -New game
   -Alternates players
@@ -6,6 +8,8 @@ Functionality complete:
   -Prohibits moving into check
   -Ensures move is valid move
   -Removes captured pieces from board
+  -Promotion of pawns
+  -En passant
   -Checkmate ends game
   -Saves game
   -Loads saved game
@@ -13,7 +17,6 @@ Functionality complete:
 
 Functionality pending:
 -stalemate
--En passant 
 -castling
 
-Learned: don't use global variables. what a headache.
+Learned: don't use global variables. what a headache :)

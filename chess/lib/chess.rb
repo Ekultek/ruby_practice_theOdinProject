@@ -6,6 +6,8 @@ class Game
     $board = board_generator
     @players = ["white", "black"]
     @current_player_index = 0
+    @prev_coord = [0, 0]
+    @prev_delta_y = nil
   end
   def next_player_index 
     1 - @current_player_index 
@@ -35,7 +37,7 @@ class Game
     loop do
       puts ''
       print "Do you want to start a (N)ew game, open a (S)aved game, or (E)xit?"
-      response = gets.chomp.upcase
+      response = STDIN.gets.chomp.upcase
       if response == 'S'
         if File.exist? ('saved_game.rb')
           LoadGame.new
@@ -208,10 +210,10 @@ class Game
     temp_board[start[0]][ start[1]] = nil
     return temp_board
   end
-  # Runs tests to ensure 1)  moving your own player 2) King not in check or not moving into check 3) not trying to capture your own piece 4) move is a legal combination
+  # Runs tests to ensure 1)  moving your own player 2) King not in check or not moving into check 3) not trying to capture your own piece 4) move is a legal combination 5)En passant is a possibility
   def permissible(start, stop, piece, player)
     $board[start[0]][start[1]].nil? ? start_color = nil : start_color =  $board[start[0]][start[1]].color
-    $board[stop[0]][stop[1]].nil? ? stop_color = nil : stop_color = $board[stop[0]][stop[1]].color    
+    $board[stop[0]][stop[1]].nil? ? stop_color = nil : stop_color = $board[stop[0]][stop[1]].color 
     if start_color != player
       puts "Invalid selection!"; return false
     end
@@ -225,6 +227,16 @@ class Game
     if stop_color == player
       puts ''
       puts "You cannot capture your own piece!"; return false
+    end
+    puts $board[@prev_coord[0]][@prev_coord[1]].class
+    if  piece.class == Pawn && $board[@prev_coord[0]][@prev_coord[1]].class == Pawn
+      if @prev_delta_y == 2 && @prev_coord[1] == start[1]  && @prev_coord[0] == stop[0] 
+        if (player == 'white' && stop[1] == @prev_coord[1] + 1) or (player == 'black' && stop[1] == @prev_coord[1] -1 )
+           print "En passant"
+          $board[@prev_coord[0]][@prev_coord[1]] = nil
+          return true
+        end
+      end
     end
     if piece.valid_move(start, stop, $board) == false
       puts ''
@@ -246,6 +258,8 @@ class Game
     $board[stop[0]][stop[1]] = piece
     $board[start[0]][start[1]] = nil  
     $board[stop[0]][stop[1]].turn += 1
+    @prev_coord= [stop[0], stop[1]]
+    @prev_delta_y = (stop[1] - start[1]).abs
     if piece.class == Pawn and (stop[1] == 7 or stop[1] == 0)
       promotion(stop, piece)
     end      
@@ -254,7 +268,7 @@ class Game
     color = piece.color
     counter = 0
     while counter < 1
-      puts "To which piece would you like to promote your pawn?"
+      puts "To which piece would you like to promote your pawn? "
       sleep (0.1)
       print "(Q)ueen, k(N)ight, (R)ook, or (B)ishop"
       swap = gets.chomp.upcase
