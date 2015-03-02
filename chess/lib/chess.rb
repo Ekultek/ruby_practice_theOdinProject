@@ -210,25 +210,27 @@ class Game
     temp_board[start[0]][ start[1]] = nil
     return temp_board
   end
-  # Runs tests to ensure 1)  moving your own player 2) King not in check or not moving into check 3) not trying to capture your own piece 4) move is a legal combination 5)En passant is a possibility
+  # Runs tests to ensure 1)  moving your own player 2) King not in check or not moving into check 3) not trying to capture your own piece 4) move is a legal combination 5) En passant is a possibility 6) Castling is a possibility
   def permissible(start, stop, piece, player)
     $board[start[0]][start[1]].nil? ? start_color = nil : start_color =  $board[start[0]][start[1]].color
     $board[stop[0]][stop[1]].nil? ? stop_color = nil : stop_color = $board[stop[0]][stop[1]].color 
+    # Ensures player moving own piece
     if start_color != player
       puts "Invalid selection!"; return false
     end
     temp_board = temporary_board(start, stop)
-    #print_board(temp_board)
     check = in_check(player, temp_board)
+    # Ensures King not currently in check, or move places King in check
     if check == true
       puts ''
       puts "Invalid move. King in check." ; return false 
     end
+    # Ensures player doesn't capture own piece
     if stop_color == player
       puts ''
       puts "You cannot capture your own piece!"; return false
     end
-    puts $board[@prev_coord[0]][@prev_coord[1]].class
+    # Permits en passant
     if  piece.class == Pawn && $board[@prev_coord[0]][@prev_coord[1]].class == Pawn
       if @prev_delta_y == 2 && @prev_coord[1] == start[1]  && @prev_coord[0] == stop[0] 
         if (player == 'white' && stop[1] == @prev_coord[1] + 1) or (player == 'black' && stop[1] == @prev_coord[1] -1 )
@@ -238,11 +240,72 @@ class Game
         end
       end
     end
+    #King hasn't moved yet, rook hasn't moved yet
+    if piece.class == King  and start[1] == stop[1] and (start[0] - stop[0]).abs == 2 and piece.turn == 0 #first rank King,king hasn't moved, 
+       if castle_valid(start, stop, piece, player)
+        print "Castling..."
+        return true
+       end
+    end
+    # Ensures move is a valid combination for piece type
     if piece.valid_move(start, stop, $board) == false
       puts ''
       puts "Invalid move!" ; return false
     end
     return true
+  end
+  def castle_valid(start, stop, piece, player)
+    if player == 'white'
+      if stop[0] == 6 && $board[7][0].class == Rook && $board[7][0].turn == 0
+        if $board[stop[0]][stop[1]].nil? && $board[5][0].nil?
+           temp_board = temporary_board(start, [5, 0])
+           check = in_check(player, temp_board)
+           if !check 
+              $board[5][0] = Rook.new(player)
+              $board[5][0].turn += 1
+              $board[7][0] = nil
+              return true    
+           end
+        end        
+      end 
+        if stop[0] == 2 && $board[0][0].class == Rook && $board[0][0].turn == 0
+          if $board[stop[0]][stop[1]].nil? && $board[3][0].nil?
+           temp_board = temporary_board(start, [3, 0])
+           check = in_check(player, temp_board)
+           if !check
+              $board[3][0] = Rook.new(player)
+              $board[3][0].turn += 1
+              $board[0][0] = nil
+              return true    
+           end
+         end        
+        end 
+    else
+      if stop[0] == 6 && $board[7][7].class == Rook && $board[7][7].turn == 0
+        if $board[stop[0]][stop[1]].nil? && $board[5][7].nil?
+           temp_board = temporary_board(start, [5, 7])
+           check = in_check(player, temp_board)
+           if !check 
+              $board[5][7] = Rook.new(player)
+              $board[5][7].turn += 1
+              $board[7][7] = nil
+              return true    
+           end
+         end         
+      end
+      if stop[0] == 2 && $board[0][7].class == Rook && $board[0][7].turn == 0
+          if $board[stop[0]][stop[1]].nil? && $board[3][7].nil?
+           temp_board = temporary_board(start, [3, 7])
+           check = in_check(player, temp_board)
+           if !check 
+              $board[3][7] = Rook.new(player)
+              $board[3][7].turn += 1
+              $board[0][7] = nil
+              return true    
+           end
+         end        
+      end 
+    end
   end
     # Determines if king is in check
   def in_check(player, board)
@@ -629,6 +692,9 @@ class NewGame < Game
     super
     puts ''
     puts "New game!"
+    puts ''
+    puts 'To move, enter starting and stopping coordinates.  For example: a2, and a4.'
+    puts ''
     puts '...At any time, you can type \'save\' or \'exit\'!'
     puts ''
     setup_board
