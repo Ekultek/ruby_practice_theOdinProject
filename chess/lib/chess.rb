@@ -449,6 +449,9 @@ class Game
     saved.write(yaml)
     saved.close
   end
+  def game_over_draw(player)
+    # Future stalemate function
+  end
 end
  
 class Pawn

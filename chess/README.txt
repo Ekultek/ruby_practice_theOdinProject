@@ -10,13 +10,13 @@ Functionality complete:
   -Removes captured pieces from board
   -Promotion of pawns
   -En passant
+  -Castling
   -Checkmate ends game
   -Saves game
   -Loads saved game
   -Exits game
 
 Functionality pending:
--stalemate
--castling
+  -stalemate
 
-Learned: don't use global variables. what a headache :)
+
