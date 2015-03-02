@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 # tests for my_select, my_any? my_all?, my_count, my_map, my_inject
+
 describe "my_select" do
   subject {[1, 2, 3, 5, 7, 8]}
   
@@ -40,6 +41,8 @@ describe "my_all?" do
   it "returns false if one item doesn't meet criteria" do
     expect([3.66, 7, 4.51, 98.7].my_all? {|i| i%1 != 0}).to be false
   end
+  
+  
 end
 
 describe "my_count" do
@@ -53,28 +56,5 @@ describe "my_count" do
   
   it "returns 0 when nothing in array matches block criteria" do
     expect([0, 1, 2, 3, 4, 5, 6].my_count {|i| i > 100}).to eql 0
-  end
-end
-
-describe "my_map" do
-
-  it "maps every element to another" do
-    expect([2, 4, 6, 8].my_map {|num| num * 2}).to eql [4, 8, 12, 16]
-  end
-  
-  it "handles an empty array" do
-    expect([].my_map {|num| num * 2}).to eql []
-  end
-end
-
-describe "my_inject" do
-  it "gives the product of all numbers in array" do
-    expect([2,4,6,2].my_inject(1) {|prod, i| prod * i}).to eql 96
-  end
-end
-
-describe "my_inject" do
-  it "gives the product of all numbers in array" do
-    expect([2,4,6,2].my_inject(0) {|sum, i| sum + i}).to eql 14
   end
 end

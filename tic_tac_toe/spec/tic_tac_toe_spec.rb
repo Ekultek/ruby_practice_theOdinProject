@@ -33,6 +33,7 @@ describe Board do
   end
   
   describe "#check" do
+  
     before :each do
      @game.check(@game.player_1)
     end
@@ -40,4 +41,6 @@ describe Board do
       expect(@game.stop).to be true
     end
   end
+  
+  
 end
