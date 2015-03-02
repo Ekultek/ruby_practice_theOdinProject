@@ -10,6 +10,7 @@ http://www.theodinproject.com/ assignments
 <li>event_manager: Working with file inputs/outputs, populating templates </li>
 <li>google_homepage: HTML/CSS exercise: creating google home appearance</li>
 <li>hangman: Play hangman against the computer, ruby </li>
+<li> hello_app: Simple rails application
 <li>jumpstart_labs_blogger_app: Rails blogger application </li>
 <li>knights_travails: Finds fastest path from A to B for knight on chessboard </li>
 <li>mastermind: Play mastermind against the PC </li>
@@ -18,7 +19,7 @@ http://www.theodinproject.com/ assignments
 <li>sketchpad: Javascript/jQuery sketchpad in browser </li>
 <li>sockets: Web server/browser from the command line </li>
 <li>testfirst-ruby: Exercises in rspec </li>
-<li>tic_tac_toe:Two-player tic-tac-toe in Ruby </li>
+<li>tic_tac_toe: Two-player tic-tac-toe in Ruby </li>
 </ul>
 
 
