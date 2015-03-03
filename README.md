@@ -15,6 +15,7 @@ http://www.theodinproject.com/ assignments
 <li>mastermind: Play mastermind against the PC </li>
 <li>recursion: Exercises in recursion: fibonacci and merge-sorting </li>
 <li>ruby_building_blocks:  Exercises in ruby Enumerable methods </li>
+<li>sample_app "Sample application from Michael Hartl tutorial"
 <li>sketchpad: Javascript/jQuery sketchpad in browser </li>
 <li>sockets: Web server/browser from the command line </li>
 <li>testfirst-ruby: Exercises in rspec </li>
