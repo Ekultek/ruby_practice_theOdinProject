@@ -13,6 +13,7 @@ http://www.theodinproject.com/ assignments
 <li>jumpstart_labs_blogger_app: Rails blogger application </li>
 <li>knights_travails: Finds fastest path from A to B for knight on chessboard </li>
 <li>mastermind: Play mastermind against the PC </li>
+<li>microreddit: Small rails app with user, post, and comment models </li>
 <li>recursion: Exercises in recursion: fibonacci and merge-sorting </li>
 <li>ruby_building_blocks:  Exercises in ruby Enumerable methods </li>
 <li>sample_app "Sample application from Michael Hartl tutorial"
