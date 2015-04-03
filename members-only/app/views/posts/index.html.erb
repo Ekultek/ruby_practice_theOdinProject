@@ -1,0 +1,19 @@
+<h1> Posts Index </h1>
+
+<%@posts.each do |post| %>
+  <% if signed_in? %>
+    <h3> Posted by: <%= post.user.name %> </h3>
+  <% end %>
+  <p> Title: <%= post.title %> </p>
+   <%= post.body %> 
+
+<% end %>
+
+<br>
+<br>
+<% if signed_in? %>
+  <%=link_to "New Post", controller: "posts", action: "new" %> <br><br>
+  <%= link_to  "Log out", logout_path, method: :delete %>
+<% else %>
+  <%= link_to  "Log in", signin_path %>
+<% end %>
